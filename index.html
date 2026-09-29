@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Fragments</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="vendor/p5.min.js"></script>
+  <script src="asset-data.js"></script>
+</head>
+<body>
+
+  <!-- ① 固定底层画布：face.png 常驻 + portrait_1~4 随滚动切换（原地不动） -->
+  <div id="canvas-container"></div>
+
+  <!-- ② 前景滚动内容层 -->
+  <div class="content-overlay">
+
+    <!-- 首屏 Hero：portrait.jpg 的完整故障效果，随页面一起滚动 -->
+    <section class="hero-section">
+      <!-- 注意：这里必须有 id="hero-canvas"，sketch.js 里 canvas.parent("hero-canvas") 要用 -->
+      <div id="hero-canvas" class="canvas-wrapper"></div>
+
+      <div class="header-meta">
+        <span class="dot"></span>
+        PERSONALITY / 2026 — 001 &nbsp;&nbsp; MADE BY Tony Justin Agnes
+      </div>
+
+      <h1 class="title-main">DIGITAL</h1>
+      <h1 class="title-sub">FRAGMENTS</h1>
+
+      <p class="description">
+        A visual experiment on selfhood, memory,<br>
+        and what the system cannot recognize.
+      </p>
+
+      <div class="scroll-hint">
+        SCROLL TO READ THE FILE
+        <span class="arrow">↓</span>
+      </div>
+    </section>
+
+    <!-- 第1区块 -->
+    <section class="glitch-section">
+      <div class="section-label">SUBJECT_01</div>
+      <h2 class="section-title">DIGITAL FRACTURE</h2>
+      <p class="section-desc">
+        Signal degradation and pixel corruption as a metaphor for fragmented identity in digital space.
+      </p>
+    </section>
+
+    <!-- 第2区块 -->
+    <section class="glitch-section">
+      <div class="section-label">SUBJECT_02</div>
+      <h2 class="section-title">NOISE IDENTITY</h2>
+      <p class="section-desc">
+        Static interference erodes the edges of the portrait, revealing the data beneath the surface.
+      </p>
+    </section>
+
+    <!-- 第3区块 -->
+    <section class="glitch-section">
+      <div class="section-label">SUBJECT_03</div>
+      <h2 class="section-title">SYSTEM ERROR</h2>
+      <p class="section-desc">
+        When recognition algorithms fail, the persona dissolves into blocks of color and code.
+      </p>
+    </section>
+
+    <!-- 第4区块 -->
+    <section class="glitch-section">
+      <div class="section-label">SUBJECT_04</div>
+      <h2 class="section-title">DATA GHOST</h2>
+      <p class="section-desc">
+        A residual echo of the original image, trapped between layers of digital processing.
+      </p>
+    </section>
+
+    <section class="photo-archive" id="photo-archive" aria-labelledby="archive-title">
+      <header class="photo-archive__header">
+        <p class="photo-archive__eyebrow">ADDITIONAL WORKS / 2026</p>
+        <h2 id="archive-title">PHOTO <span>ARCHIVE</span></h2>
+        <p class="photo-archive__count">15 GLITCH PHOTOGRAPHS / 04 SERIES</p>
+      </header>
+      <div class="photo-archive__works">
+        <div class="photo-series-label"><h3>SERIES_01</h3><span>03 IMAGES</span></div>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-01.jpeg" width="1132" height="1415" loading="lazy" decoding="async" alt="Side-profile portrait in gold and black with horizontal digital bands.">
+          </div>
+        </figure>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-02.jpeg" width="1132" height="1415" loading="lazy" decoding="async" alt="Side-profile portrait crossed by green, yellow and red glitch bands.">
+          </div>
+        </figure>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-03.jpeg" width="1132" height="1415" loading="lazy" decoding="async" alt="Side-profile portrait broken into red, yellow and dark fragments.">
+          </div>
+        </figure>
+        <div class="photo-series-label"><h3>SERIES_02</h3><span>04 IMAGES</span></div>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-04.jpeg" width="770" height="963" loading="lazy" decoding="async" alt="Front-facing portrait in dark green tones with a subtle digital shift.">
+          </div>
+        </figure>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-05.jpeg" width="770" height="963" loading="lazy" decoding="async" alt="Front-facing portrait with a bright green horizontal glitch.">
+          </div>
+        </figure>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-06.jpeg" width="770" height="963" loading="lazy" decoding="async" alt="Front-facing portrait interrupted by pale pink and blue glitch bands.">
+          </div>
+        </figure>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-07.jpeg" width="770" height="963" loading="lazy" decoding="async" alt="Front-facing portrait with blue and pink digital bands.">
+          </div>
+        </figure>
+        <div class="photo-series-label"><h3>SERIES_03</h3><span>05 IMAGES</span></div>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-08.png" width="880" height="1100" loading="lazy" decoding="async" alt="Portrait of an older man with vertical digital tears through his face.">
+          </div>
+        </figure>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-09.png" width="700" height="875" loading="lazy" decoding="async" alt="Portrait transformed into long vertical streaks of color.">
+          </div>
+        </figure>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-10.png" width="880" height="1100" loading="lazy" decoding="async" alt="Portrait fragmented into broad horizontal and vertical slices.">
+          </div>
+        </figure>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-11.png" width="880" height="1100" loading="lazy" decoding="async" alt="Portrait of an older man with blocky gaps and shifted pixels.">
+          </div>
+        </figure>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-12.png" width="880" height="1100" loading="lazy" decoding="async" alt="Portrait of an older man with displaced facial fragments.">
+          </div>
+        </figure>
+        <div class="photo-series-label"><h3>SERIES_04</h3><span>03 IMAGES</span></div>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-13.png" width="700" height="1048" loading="lazy" decoding="async" alt="Portrait of an older woman with vertical digital streaks.">
+          </div>
+        </figure>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-14.png" width="200" height="299" loading="lazy" decoding="async" alt="Portrait abstracted by dense horizontal glitch bands.">
+          </div>
+        </figure>
+        <figure class="photo-item">
+          <div class="photo-item__frame">
+            <img src="archive/fragment-15.png" width="880" height="1317" loading="lazy" decoding="async" alt="Portrait of an older woman cut by horizontal digital distortion.">
+          </div>
+        </figure>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="sketch.js"></script>
+  <script src="gallery.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,382 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  font-family: 'Courier New', monospace;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* 网格背景随页面滚动 */
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ===== 固定底层画布：face.png + 4张切换人物，原地不动 ===== */
+#canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+#canvas-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  background: transparent !important;
+}
+
+/* ===== 区块内画布：随页面一起滚动 ===== */
+.canvas-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.canvas-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  background: transparent !important;
+}
+
+/* 前景滚动内容总容器 */
+.content-overlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* 通用区块样式 */
+.hero-section,
+.glitch-section {
+  min-height: 100vh;
+  padding: 60px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-meta {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 3;
+}
+
+.header-meta .dot {
+  width: 8px;
+  height: 8px;
+  background-color: #e8ff00;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* 主标题样式 */
+.title-main {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(80px, 15vw, 220px);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: -0.05em;
+  position: relative;
+  z-index: 3;
+}
+
+.title-sub {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(80px, 15vw, 220px);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: #e8ff00;
+  position: relative;
+  z-index: 3;
+}
+
+.description {
+  margin-top: 50px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #ffffff;
+  opacity: 0.7;
+  max-width: 400px;
+  position: relative;
+  z-index: 3;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 60px;
+  left: 80px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #e8ff00;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 3;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.scroll-hint .arrow {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+/* 区块标题样式 */
+.section-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #e8ff00;
+  margin-bottom: 20px;
+  opacity: 0.8;
+  position: relative;
+  z-index: 3;
+}
+
+.section-title {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(48px, 8vw, 120px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 3;
+}
+
+.section-desc {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #ffffff;
+  opacity: 0.65;
+  max-width: 380px;
+  position: relative;
+  z-index: 3;
+}
+
+/* The original fixed canvas remains visible behind the compact archive. */
+.photo-archive {
+  position: relative;
+  z-index: 4;
+  padding: clamp(32px, 4vw, 64px) clamp(20px, 5vw, 80px) 80px;
+  background: transparent;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.9);
+}
+
+.photo-archive__header {
+  min-height: 34vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 0 44px;
+  border-top: 1px solid rgba(255,255,255,0.5);
+}
+
+.photo-archive__eyebrow,
+.photo-archive__count,
+.photo-series-label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+
+.photo-archive__eyebrow,
+.photo-series-label {
+  color: #e8ff00;
+}
+
+.photo-archive__eyebrow {
+  margin-bottom: 20px;
+}
+
+.photo-archive__header h2 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(54px, 8vw, 112px);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+
+.photo-archive__header h2 span {
+  display: block;
+  color: #e8ff00;
+}
+
+.photo-archive__count {
+  margin-top: 24px;
+  color: #ffffff;
+}
+
+.photo-archive__works {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2.4vw, 32px);
+  align-items: start;
+}
+
+.photo-series-label {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+  padding: 14px 12px;
+  border-top: 1px solid rgba(255,255,255,0.5);
+  background: rgba(0,0,0,0.35);
+}
+
+.photo-series-label h3 {
+  font: inherit;
+}
+
+.photo-item {
+  min-width: 0;
+  margin: 0;
+  position: relative;
+  transform: rotate(var(--tilt, 0deg));
+  transform-origin: center;
+}
+
+.photo-item:nth-of-type(3n + 1) {
+  --tilt: -0.7deg;
+  --float-duration: 7.4s;
+  --float-delay: -1.2s;
+}
+
+.photo-item:nth-of-type(3n + 2) {
+  --tilt: 0.6deg;
+  --float-duration: 8.1s;
+  --float-delay: -3s;
+  --reveal-delay: 90ms;
+}
+
+.photo-item:nth-of-type(3n + 3) {
+  --tilt: -0.4deg;
+  --float-duration: 6.9s;
+  --float-delay: -2.1s;
+  --reveal-delay: 180ms;
+}
+
+.photo-item__frame {
+  min-width: 0;
+  width: 100%;
+  display: block;
+}
+
+.photo-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.58), 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.photo-archive--reveal .photo-item {
+  opacity: 0;
+  transform: translate3d(0, 56px, 0) scale(0.94) rotate(1.5deg);
+  transition: opacity 800ms ease, transform 950ms cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+
+.photo-archive--reveal .photo-item.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1) rotate(var(--tilt, 0deg));
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.photo-archive--reveal .photo-item.is-inview .photo-item__frame {
+  animation: archive-float var(--float-duration, 7.5s) ease-in-out var(--float-delay, 0s) infinite;
+}
+
+@keyframes archive-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -9px, 0); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .photo-item:hover,
+  .photo-archive--reveal .photo-item.is-visible:hover {
+    z-index: 2;
+    transform: translate3d(0, -12px, 0) scale(1.025) rotate(0deg);
+  }
+
+  .photo-item:hover .photo-item__frame {
+    animation-play-state: paused;
+  }
+}
+
+@media (max-width: 700px) {
+  .title-main,
+  .title-sub {
+    font-size: clamp(32px, 11.8vw, 80px);
+  }
+
+  .photo-archive {
+    padding: 38px 16px 64px;
+  }
+
+  .photo-archive__header {
+    min-height: 26vh;
+    padding-bottom: 32px;
+  }
+
+  .photo-archive__header h2 {
+    font-size: clamp(54px, 11vw, 70px);
+  }
+
+  .photo-archive__works {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 12px;
+  }
+
+  .photo-series-label {
+    margin-top: 14px;
+    padding: 12px 8px;
+    font-size: 10px;
+  }
+
+  .photo-item:nth-of-type(2n) {
+    --reveal-delay: 90ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-item,
+  .photo-archive--reveal .photo-item,
+  .photo-archive--reveal .photo-item.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .photo-archive--reveal .photo-item.is-inview .photo-item__frame {
+    animation: none;
+  }
+}
